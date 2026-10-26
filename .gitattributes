@@ -3,3 +3,7 @@
 # Unreal 바이너리 에셋은 Git LFS로
 *.uasset filter=lfs diff=lfs merge=lfs -text
 *.umap filter=lfs diff=lfs merge=lfs -text
+
+# 셸 스크립트·git 훅은 Windows에서도 LF 유지 (CRLF면 sh가 실패)
+*.sh text eol=lf
+Tools/GitHooks/* text eol=lf
