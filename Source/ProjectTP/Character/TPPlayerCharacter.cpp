@@ -60,7 +60,7 @@ void ATPPlayerCharacter::DoLightAttack()
 		return;
 	}
 
-	PlayMontageFromSection(LightAttackMontage, LightComboSections[0]);
+	PlayMontageFromSection(AnimInstance, LightAttackMontage, LightComboSections[0]);
 }
 
 void ATPPlayerCharacter::DoHeavyAttack()
@@ -104,15 +104,19 @@ void ATPPlayerCharacter::DoDodge()
 		return;
 	}
 
-	// 이동 입력이 있으면 그 방향으로 돌아서 회피한다
+	// 같은 슬롯의 공격 몽타주는 여기서 끊긴다
+	if (AnimInstance->Montage_Play(DodgeMontage) <= 0.f)
+	{
+		UE_LOG(LogProjectTP, Warning, TEXT("%s: Failed to play DodgeMontage"), *GetName());
+		return;
+	}
+
+	// 재생에 성공했을 때만 이동 입력 방향으로 돌아서 회피한다
 	const FVector InputDirection = GetLastMovementInputVector();
 	if (!InputDirection.IsNearlyZero())
 	{
 		SetActorRotation(FRotator(0.f, InputDirection.Rotation().Yaw, 0.f));
 	}
-
-	// 같은 슬롯의 공격 몽타주는 여기서 끊긴다
-	AnimInstance->Montage_Play(DodgeMontage);
 }
 
 UAnimInstance* ATPPlayerCharacter::GetAnimInstanceOrWarn() const
@@ -125,9 +129,10 @@ UAnimInstance* ATPPlayerCharacter::GetAnimInstanceOrWarn() const
 	return AnimInstance;
 }
 
-void ATPPlayerCharacter::PlayMontageFromSection(UAnimMontage* Montage, FName Section)
+void ATPPlayerCharacter::PlayMontageFromSection(UAnimInstance* AnimInstance, UAnimMontage* Montage, FName Section)
 {
-	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	check(AnimInstance && Montage);
+
 	if (AnimInstance->Montage_Play(Montage) <= 0.f)
 	{
 		return;

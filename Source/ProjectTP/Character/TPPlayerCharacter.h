@@ -71,7 +71,7 @@ private:
 	UAnimInstance* GetAnimInstanceOrWarn() const;
 
 	/** 몽타주를 재생하고 모든 섹션의 다음 섹션 연결을 끊는다 */
-	void PlayMontageFromSection(UAnimMontage* Montage, FName Section);
+	void PlayMontageFromSection(UAnimInstance* AnimInstance, UAnimMontage* Montage, FName Section);
 
 	/** 공격이나 회피 몽타주가 재생 중인지 */
 	bool IsPlayingActionMontage() const;
