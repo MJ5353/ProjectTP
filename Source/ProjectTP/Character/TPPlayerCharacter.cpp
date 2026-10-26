@@ -10,16 +10,34 @@ void ATPPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		EnhancedInputComponent->BindAction(LightAttackAction, ETriggerEvent::Started, this, &ATPPlayerCharacter::DoLightAttack);
-		EnhancedInputComponent->BindAction(HeavyAttackAction, ETriggerEvent::Started, this, &ATPPlayerCharacter::DoHeavyAttack);
-		EnhancedInputComponent->BindAction(DodgeAction, ETriggerEvent::Started, this, &ATPPlayerCharacter::DoDodge);
+		// BP에서 지정하기 전에는 비어 있으므로 바인딩하지 않고 경고만 남긴다
+		auto BindIfSet = [this, EnhancedInputComponent](const UInputAction* Action, const TCHAR* ActionName, void (ATPPlayerCharacter::*Handler)())
+		{
+			if (Action)
+			{
+				EnhancedInputComponent->BindAction(Action, ETriggerEvent::Started, this, Handler);
+			}
+			else
+			{
+				UE_LOG(LogProjectTP, Warning, TEXT("%s: %s is not set"), *GetName(), ActionName);
+			}
+		};
+
+		BindIfSet(LightAttackAction, TEXT("LightAttackAction"), &ATPPlayerCharacter::DoLightAttack);
+		BindIfSet(HeavyAttackAction, TEXT("HeavyAttackAction"), &ATPPlayerCharacter::DoHeavyAttack);
+		BindIfSet(DodgeAction, TEXT("DodgeAction"), &ATPPlayerCharacter::DoDodge);
 	}
 }
 
 void ATPPlayerCharacter::DoLightAttack()
 {
-	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	if (!AnimInstance || !LightAttackMontage || LightComboSections.IsEmpty())
+	UAnimInstance* AnimInstance = GetAnimInstanceOrWarn();
+	if (!AnimInstance)
+	{
+		return;
+	}
+
+	if (!LightAttackMontage || LightComboSections.IsEmpty())
 	{
 		UE_LOG(LogProjectTP, Warning, TEXT("%s: LightAttackMontage or LightComboSections is not set"), *GetName());
 		return;
@@ -47,8 +65,13 @@ void ATPPlayerCharacter::DoLightAttack()
 
 void ATPPlayerCharacter::DoHeavyAttack()
 {
-	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	if (!AnimInstance || !HeavyAttackMontage)
+	UAnimInstance* AnimInstance = GetAnimInstanceOrWarn();
+	if (!AnimInstance)
+	{
+		return;
+	}
+
+	if (!HeavyAttackMontage)
 	{
 		UE_LOG(LogProjectTP, Warning, TEXT("%s: HeavyAttackMontage is not set"), *GetName());
 		return;
@@ -64,8 +87,13 @@ void ATPPlayerCharacter::DoHeavyAttack()
 
 void ATPPlayerCharacter::DoDodge()
 {
-	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	if (!AnimInstance || !DodgeMontage)
+	UAnimInstance* AnimInstance = GetAnimInstanceOrWarn();
+	if (!AnimInstance)
+	{
+		return;
+	}
+
+	if (!DodgeMontage)
 	{
 		UE_LOG(LogProjectTP, Warning, TEXT("%s: DodgeMontage is not set"), *GetName());
 		return;
@@ -85,6 +113,16 @@ void ATPPlayerCharacter::DoDodge()
 
 	// 같은 슬롯의 공격 몽타주는 여기서 끊긴다
 	AnimInstance->Montage_Play(DodgeMontage);
+}
+
+UAnimInstance* ATPPlayerCharacter::GetAnimInstanceOrWarn() const
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (!AnimInstance)
+	{
+		UE_LOG(LogProjectTP, Warning, TEXT("%s: Mesh has no AnimInstance"), *GetName());
+	}
+	return AnimInstance;
 }
 
 void ATPPlayerCharacter::PlayMontageFromSection(UAnimMontage* Montage, FName Section)

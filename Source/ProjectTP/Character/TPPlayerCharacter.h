@@ -4,6 +4,7 @@
 #include "ProjectTPCharacter.h"
 #include "TPPlayerCharacter.generated.h"
 
+class UAnimInstance;
 class UAnimMontage;
 class UInputAction;
 
@@ -65,6 +66,9 @@ public:
 	void DoDodge();
 
 private:
+
+	/** 메시의 AnimInstance. 없으면 경고 로그를 남기고 nullptr */
+	UAnimInstance* GetAnimInstanceOrWarn() const;
 
 	/** 몽타주를 재생하고 모든 섹션의 다음 섹션 연결을 끊는다 */
 	void PlayMontageFromSection(UAnimMontage* Montage, FName Section);

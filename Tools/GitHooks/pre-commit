@@ -25,7 +25,7 @@ while IFS= read -r f; do
 	size=$(git cat-file -s ":$f")
 
 	# 2. LFS 대상은 포인터로 스테이징돼야 한다 (LFS 미설치면 원본이 그대로 들어간다)
-	if [ "$(git check-attr filter -- "$f" | sed 's/.*: //')" = "lfs" ]; then
+	if [ "$(git check-attr --cached filter -- "$f" | sed 's/.*: //')" = "lfs" ]; then
 		if [ "$size" -gt 1024 ] || ! git cat-file -p ":$f" | head -n 1 | grep -q '^version https://git-lfs'; then
 			err "LFS 포인터가 아닙니다 (git lfs install 확인): $f"
 		fi
