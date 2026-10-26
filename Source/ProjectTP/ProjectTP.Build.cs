@@ -28,6 +28,7 @@ public class ProjectTP : ModuleRules
 
 		PublicIncludePaths.AddRange(new string[] {
 			"ProjectTP",
+			"ProjectTP/Character",
 			"ProjectTP/Variant_Combat",
 			"ProjectTP/Variant_Combat/AI",
 			"ProjectTP/Variant_Combat/Animation",
