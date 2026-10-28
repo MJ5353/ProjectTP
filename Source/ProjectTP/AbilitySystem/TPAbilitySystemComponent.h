@@ -37,10 +37,10 @@ public:
 	/** 기존에 지급한 것을 회수하고 정의 에셋대로 다시 지급한다 (서버) */
 	void SetUp(const UTPAbilityDefinition* AbilityDefinition, const UTPAttributeDefinition* AttributeDefinition);
 
-	/** 정의 에셋으로 지급한 어빌리티·어트리뷰트를 모두 회수하고 사망 상태를 푼다 (서버) */
+	/** 정의 에셋으로 지급한 어빌리티·어트리뷰트를 모두 회수한다 (서버) */
 	void Clear();
 
-	/** CurrentHP를 MaxHP로 채운다 (서버) */
+	/** CurrentHP를 MaxHP로 채우고 사망 상태를 푼다 (서버) */
 	void RestoreHP();
 
 	/** HP 어트리뷰트가 데미지를 반영한 뒤 부른다. 델리게이트를 알리고 피격 이벤트를 보낸다 */

@@ -19,8 +19,8 @@ void UTPAbilitySystemComponent::SetUp(const UTPAbilityDefinition* AbilityDefinit
 	if (AttributeDefinition)
 	{
 		AttributeDefinition->GiveToAbilitySystem(this, GrantedAttributeSets);
-		RestoreHP();
 	}
+	RestoreHP();
 
 	if (AbilityDefinition)
 	{
@@ -39,19 +39,22 @@ void UTPAbilitySystemComponent::Clear()
 
 	GrantedAbilityHandles.TakeFromAbilitySystem(this);
 	GrantedAttributeSets.TakeFromAbilitySystem(this);
-
-	// 다시 지급하면 HP가 차므로 사망 상태도 같이 푼다
-	SetLooseGameplayTagCount(TPGameplayTags::State_Dead, 0, EGameplayTagReplicationState::TagOnly);
 }
 
 void UTPAbilitySystemComponent::RestoreHP()
 {
-	if (!IsOwnerActorAuthoritative() || !GetSet<UTPHealthAttributeSet>())
+	if (!IsOwnerActorAuthoritative())
 	{
 		return;
 	}
 
-	SetNumericAttributeBase(UTPHealthAttributeSet::GetCurrentHPAttribute(), GetNumericAttribute(UTPHealthAttributeSet::GetMaxHPAttribute()));
+	// 리스폰·리트라이에서 이것만 불러도 살아난 상태가 되도록 사망 태그를 같이 푼다
+	SetLooseGameplayTagCount(TPGameplayTags::State_Dead, 0, EGameplayTagReplicationState::TagOnly);
+
+	if (GetSet<UTPHealthAttributeSet>())
+	{
+		SetNumericAttributeBase(UTPHealthAttributeSet::GetCurrentHPAttribute(), GetNumericAttribute(UTPHealthAttributeSet::GetMaxHPAttribute()));
+	}
 }
 
 void UTPAbilitySystemComponent::NotifyDamageApplied(AActor* Instigator, float AppliedDamage)
