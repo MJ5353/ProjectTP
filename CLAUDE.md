@@ -19,6 +19,7 @@ UE 5.7 타격감·카메라 연출 데모 (포트폴리오용). Third Person C++
 | `Data/` | 타격감 수치 CSV (`HitFeel.csv` 등). DataTable 원본 | 포함 |
 
 - 외부 에셋은 `Content/ThirdParty/` 밖에 두지 않는다. 내 에셋이 외부 에셋을 참조하는 것은 괜찮다.
+- 외부 에셋을 복제·리타겟·Bake해서 만든 에셋(리타겟 애니, Duplicate한 머티리얼·Niagara 등)도 `Content/ThirdParty/`에 저장한다. `Content/ProjectTP/`에는 외부 에셋을 참조만 하는 에셋(몽타주, 직접 만든 머티리얼 등)을 둔다.
 - 새 C++ 폴더를 만들면 `ProjectTP.Build.cs`의 `PublicIncludePaths`에 추가한다.
 
 ## 코드 규칙 (UE C++)
