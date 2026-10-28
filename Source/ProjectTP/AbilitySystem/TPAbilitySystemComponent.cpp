@@ -66,9 +66,9 @@ void UTPAbilitySystemComponent::NotifyDamageApplied(AActor* Instigator, float Ap
 
 	OnDamageApplied.Broadcast(Instigator, AppliedDamage);
 
-	// 죽은 뒤에는 피격 반응을 보내지 않는다
+	// 죽이는 타격도 보낸다. 받는 쪽에서 State.Dead로 피격 반응과 사망을 나눈다
 	AActor* Avatar = GetAvatarActor();
-	if (!Avatar || HasMatchingGameplayTag(TPGameplayTags::State_Dead))
+	if (!Avatar)
 	{
 		return;
 	}

@@ -43,7 +43,7 @@ public:
 	/** CurrentHP를 MaxHP로 채우고 사망 상태를 푼다 (서버) */
 	void RestoreHP();
 
-	/** HP 어트리뷰트가 데미지를 반영한 뒤 부른다. 델리게이트를 알리고 피격 이벤트를 보낸다 */
+	/** HP 어트리뷰트가 데미지를 반영한 뒤 부른다. 델리게이트를 알리고 피격 이벤트를 보낸다 (죽이는 타격 포함) */
 	void NotifyDamageApplied(AActor* Instigator, float AppliedDamage);
 
 	/** 어빌리티 키 태그로 지급된 Spec을 찾는다 */

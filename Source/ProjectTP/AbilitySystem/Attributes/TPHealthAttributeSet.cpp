@@ -26,7 +26,8 @@ void UTPHealthAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCa
 		// 다음 데미지와 섞이지 않도록 바로 비운다
 		SetDamage(0.f);
 
-		if (AppliedDamage > 0.f)
+		// 이미 죽은 대상에 들어온 데미지는 버린다. 이번 데미지로 죽는 타격은 그대로 알린다
+		if (AppliedDamage > 0.f && GetCurrentHP() > 0.f)
 		{
 			SetCurrentHPAndCheckDead(FMath::Clamp(GetCurrentHP() - AppliedDamage, 0.f, GetMaxHP()));
 
