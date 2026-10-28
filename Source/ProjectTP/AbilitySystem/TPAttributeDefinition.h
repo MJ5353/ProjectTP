@@ -45,6 +45,6 @@ public:
 	/** 서버에서만 AttributeSet을 만들어 붙이고 초기값을 넣는다 */
 	void GiveToAbilitySystem(UAbilitySystemComponent* ASC, FTPGrantedAttributeSets& OutGrantedSets) const;
 
-	/** 이미 붙어 있는 AttributeSet의 값을 초기값으로 되돌린다 */
+	/** 이미 붙어 있는 AttributeSet의 값을 초기값으로 되돌린다. 초기화 전용이라 값을 직접 쓴다 (전투 중 변경은 GameplayEffect로만) */
 	void ResetAttributes(UAbilitySystemComponent* ASC) const;
 };
