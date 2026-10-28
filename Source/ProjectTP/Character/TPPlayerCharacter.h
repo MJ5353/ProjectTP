@@ -1,23 +1,39 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
 #include "ProjectTPCharacter.h"
 #include "TPPlayerCharacter.generated.h"
 
 class UAnimInstance;
 class UAnimMontage;
 class UInputAction;
+class UTPAbilityDefinition;
+class UTPAbilitySystemComponent;
+class UTPAttributeDefinition;
 
 /**
- *  플레이어 캐릭터 (Manny + 대검)
- *  1일차 임시 연결: 공격·회피 입력 → 몽타주 재생. 2일차에 GAS 어빌리티로 교체한다.
+ *  플레이어 캐릭터 (Greystone)
+ *  ASC는 캐릭터가 직접 가진다 (싱글 플레이 데모라 PlayerState에 두지 않음).
+ *  1일차 임시 연결: 공격·회피 입력 → 몽타주 재생. GAS 어빌리티로 교체할 예정.
  */
 UCLASS(abstract)
-class ATPPlayerCharacter : public AProjectTPCharacter
+class ATPPlayerCharacter : public AProjectTPCharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta=(AllowPrivateAccess="true"))
+	TObjectPtr<UTPAbilitySystemComponent> AbilitySystemComponent;
+
 protected:
+
+	/** 지급할 어빌리티 */
+	UPROPERTY(EditAnywhere, Category="Combat|GAS")
+	TObjectPtr<UTPAbilityDefinition> AbilityDefinition;
+
+	/** 붙일 어트리뷰트와 초기값 */
+	UPROPERTY(EditAnywhere, Category="Combat|GAS")
+	TObjectPtr<UTPAttributeDefinition> AttributeDefinition;
 
 	/** 약공격 입력 */
 	UPROPERTY(EditAnywhere, Category="Input")
@@ -47,8 +63,18 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Combat|Montage")
 	TObjectPtr<UAnimMontage> DodgeMontage;
 
+public:
+
+	ATPPlayerCharacter();
+
+	//~ IAbilitySystemInterface
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+	UTPAbilitySystemComponent* GetTPAbilitySystemComponent() const { return AbilitySystemComponent; }
+
 protected:
 
+	virtual void PossessedBy(AController* NewController) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 public:
