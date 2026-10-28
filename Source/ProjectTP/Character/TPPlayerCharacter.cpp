@@ -3,6 +3,32 @@
 #include "Animation/AnimMontage.h"
 #include "EnhancedInputComponent.h"
 #include "ProjectTP.h"
+#include "TPAbilitySystemComponent.h"
+
+ATPPlayerCharacter::ATPPlayerCharacter()
+{
+	AbilitySystemComponent = CreateDefaultSubobject<UTPAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+}
+
+UAbilitySystemComponent* ATPPlayerCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
+void ATPPlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	// 컨트롤러가 정해진 뒤에 ActorInfo를 잡아야 PlayerController가 채워진다. 빙의될 때마다 갱신한다
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+	// 지급은 처음 한 번만
+	if (!bAbilitySystemSetUp)
+	{
+		AbilitySystemComponent->SetUp(AbilityDefinition, AttributeDefinition);
+		bAbilitySystemSetUp = true;
+	}
+}
 
 void ATPPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
