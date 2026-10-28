@@ -101,4 +101,7 @@ private:
 
 	/** 공격이나 회피 몽타주가 재생 중인지 */
 	bool IsPlayingActionMontage() const;
+
+	/** 어빌리티·어트리뷰트를 이미 지급했는지. 다시 빙의돼도 HP·진행 중인 어빌리티를 초기화하지 않는다 */
+	bool bAbilitySystemSetUp = false;
 };

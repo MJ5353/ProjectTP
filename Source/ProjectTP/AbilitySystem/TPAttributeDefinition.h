@@ -35,6 +35,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Attribute")
 	TArray<TSubclassOf<UTPAttributeSet>> AttributeSets;
 
+	/**
+	 *  배열 순서대로 넣는다.
+	 *  CurrentHP는 넣지 않는다: 그 시점의 MaxHP로 잘리므로 MaxHP만 넣고 ASC의 RestoreHP()로 채운다.
+	 */
 	UPROPERTY(EditDefaultsOnly, Category="Attribute")
 	TArray<FTPAttributeInitValue> InitialValues;
 
