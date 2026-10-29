@@ -3,6 +3,8 @@
 #include "ProjectTP/AbilitySystem/TPGameplayAbility.h"
 #include "ProjectTP/AbilitySystem/TPGrantedHandles.h"
 
+// ==================================================
+
 void UTPAbilityDefinition::GiveToAbilitySystem(UAbilitySystemComponent* ASC, FTPGrantedAbilityHandles& OutGrantedHandles, UObject* SourceObject) const
 {
 	check(ASC);

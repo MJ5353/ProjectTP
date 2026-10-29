@@ -8,6 +8,8 @@
 class UTPAbilityDefinition;
 class UTPAttributeDefinition;
 
+// ==================================================
+
 DECLARE_MULTICAST_DELEGATE_TwoParams(FTPDamageAppliedDelegate, AActor* /* Instigator */, float /* AppliedDamage */);
 
 /**

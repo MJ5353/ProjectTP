@@ -5,6 +5,8 @@
 #include "ProjectTP/AbilitySystem/TPAbilitySystemComponent.h"
 #include "ProjectTP/Common/TPLog.h"
 
+// ==================================================
+
 ATPPlayerCharacter::ATPPlayerCharacter()
 {
 	AbilitySystemComponent = CreateDefaultSubobject<UTPAbilitySystemComponent>(TEXT("AbilitySystemComponent"));

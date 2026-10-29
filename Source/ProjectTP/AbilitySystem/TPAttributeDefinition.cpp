@@ -3,6 +3,8 @@
 #include "ProjectTP/AbilitySystem/Attributes/TPAttributeSet.h"
 #include "ProjectTP/AbilitySystem/TPGrantedHandles.h"
 
+// ==================================================
+
 void UTPAttributeDefinition::GiveToAbilitySystem(UAbilitySystemComponent* ASC, FTPGrantedAttributeSets& OutGrantedSets) const
 {
 	check(ASC);

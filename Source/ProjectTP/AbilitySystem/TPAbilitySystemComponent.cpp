@@ -6,6 +6,8 @@
 #include "ProjectTP/AbilitySystem/TPGameplayAbility.h"
 #include "ProjectTP/Common/TPGameplayTags.h"
 
+// ==================================================
+
 void UTPAbilitySystemComponent::SetUp(const UTPAbilityDefinition* AbilityDefinition, const UTPAttributeDefinition* AttributeDefinition)
 {
 	if (!IsOwnerActorAuthoritative())

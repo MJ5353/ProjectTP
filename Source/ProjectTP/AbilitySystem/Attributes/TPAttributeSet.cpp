@@ -1,6 +1,8 @@
 ﻿#include "TPAttributeSet.h"
 #include "ProjectTP/Common/TPLog.h"
 
+// ==================================================
+
 namespace
 {
 	void LogAttributeChange(const UTPAttributeSet* AttributeSet, const TCHAR* ValueType, const FGameplayAttribute& Attribute, float OldValue, float NewValue)
