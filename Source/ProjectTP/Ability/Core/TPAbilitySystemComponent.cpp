@@ -101,6 +101,23 @@ const FGameplayAbilitySpec* UTPAbilitySystemComponent::FindAbilitySpecByTag(cons
 	return nullptr;
 }
 
+void UTPAbilitySystemComponent::AbilityInputPressedByTag(const FGameplayTag& Tag)
+{
+	const FGameplayAbilitySpec* FoundSpec = FindAbilitySpecByTag(Tag);
+	if (!FoundSpec)
+		return;
+
+	FGameplayAbilitySpec* AbilitySpec = FindAbilitySpecFromHandle(FoundSpec->Handle);
+	if (!AbilitySpec)
+		return;
+
+	// 이미 켜져 있으면 입력만 전달하고(콤보 다음 타 등), 아니면 켠다
+	if (AbilitySpec->IsActive())
+		AbilitySpecInputPressed(*AbilitySpec);
+	else
+		TryActivateAbility(AbilitySpec->Handle);
+}
+
 bool UTPAbilitySystemComponent::TryActivateAbilityByTag(const FGameplayTag Tag)
 {
 	const FGameplayAbilitySpec* AbilitySpec = FindAbilitySpecByTag(Tag);

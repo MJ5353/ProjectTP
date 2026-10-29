@@ -3,6 +3,7 @@
 #include "Animation/AnimMontage.h"
 #include "EnhancedInputComponent.h"
 #include "ProjectTP/Ability/Core/TPAbilitySystemComponent.h"
+#include "ProjectTP/Common/TPGameplayTags.h"
 #include "ProjectTP/Common/TPLog.h"
 
 // ==================================================
@@ -51,31 +52,11 @@ void ATPPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 void ATPPlayerCharacter::DoLightAttack()
 {
-	UAnimInstance* AnimInstance = GetAnimInstanceOrWarn();
-	if (!AnimInstance)
-		return;
-
-	if (!LightAttackMontage || LightComboSections.IsEmpty())
-	{
-		UE_LOG(LogMj, Warning, TEXT("%s: LightAttackMontage or LightComboSections is not set"), *GetName());
-		return;
-	}
-
-	// 약공 중이면 현재 타 다음에 이어질 섹션만 예약한다
-	if (AnimInstance->Montage_IsPlaying(LightAttackMontage))
-	{
-		const FName CurrentSection = AnimInstance->Montage_GetCurrentSection(LightAttackMontage);
-		const int32 Index = LightComboSections.IndexOfByKey(CurrentSection);
-		if (Index != INDEX_NONE && LightComboSections.IsValidIndex(Index + 1))
-			AnimInstance->Montage_SetNextSection(CurrentSection, LightComboSections[Index + 1], LightAttackMontage);
-
-		return;
-	}
-
 	if (IsPlayingActionMontage())
 		return;
 
-	PlayMontageFromSection(AnimInstance, LightAttackMontage, LightComboSections[0]);
+	// 꺼져 있으면 켜고, 켜져 있으면 입력을 넘겨 콤보 어빌리티가 다음 타를 판단한다
+	AbilitySystemComponent->AbilityInputPressedByTag(TPGameplayTags::AbilityKeyTag_LightAttack);
 }
 
 void ATPPlayerCharacter::DoHeavyAttack()
@@ -90,7 +71,7 @@ void ATPPlayerCharacter::DoHeavyAttack()
 		return;
 	}
 
-	if (IsPlayingActionMontage())
+	if (IsPlayingActionMontage() || AbilitySystemComponent->IsAbilityActiveByTag(TPGameplayTags::AbilityKeyTag_LightAttack))
 		return;
 
 	AnimInstance->Montage_Play(HeavyAttackMontage);
@@ -135,20 +116,6 @@ UAnimInstance* ATPPlayerCharacter::GetAnimInstanceOrWarn() const
 	return AnimInstance;
 }
 
-void ATPPlayerCharacter::PlayMontageFromSection(UAnimInstance* AnimInstance, UAnimMontage* Montage, const FName Section)
-{
-	check(AnimInstance && Montage);
-
-	if (AnimInstance->Montage_Play(Montage) <= 0.f)
-		return;
-
-	AnimInstance->Montage_JumpToSection(Section, Montage);
-
-	// 에셋의 섹션 연결과 상관없이 입력이 없으면 현재 타에서 끝나게 한다
-	for (const FCompositeSection& CompositeSection : Montage->CompositeSections)
-		AnimInstance->Montage_SetNextSection(CompositeSection.SectionName, NAME_None, Montage);
-}
-
 bool ATPPlayerCharacter::IsPlayingActionMontage() const
 {
 	const UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
@@ -156,7 +123,7 @@ bool ATPPlayerCharacter::IsPlayingActionMontage() const
 		return false;
 
 	// Montage_IsPlaying(nullptr)은 아무 몽타주나 재생 중이면 true라서 null을 먼저 거른다
-	for (const UAnimMontage* Montage : { LightAttackMontage.Get(), HeavyAttackMontage.Get(), DodgeMontage.Get() })
+	for (const UAnimMontage* Montage : { HeavyAttackMontage.Get(), DodgeMontage.Get() })
 	{
 		if (Montage && AnimInstance->Montage_IsPlaying(Montage))
 			return true;

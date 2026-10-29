@@ -42,12 +42,6 @@ protected:
 
 	// montage
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
-	TObjectPtr<UAnimMontage> LightAttackMontage;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
-	TArray<FName> LightComboSections = { TEXT("Attack1"), TEXT("Attack2"), TEXT("Attack3") };
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TObjectPtr<UAnimMontage> HeavyAttackMontage;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
@@ -67,7 +61,7 @@ protected:
 
 public:
 	// Action ------------------------------------------------
-	// 임시: 입력 → 몽타주 재생. GAS 어빌리티로 옮길 예정
+	// 약공은 어빌리티로 넘긴다. 강공격·회피는 임시로 몽타주를 직접 재생(GAS 어빌리티로 옮길 예정)
 	UFUNCTION(BlueprintCallable, Category = "MJ - Combat")
 	void DoLightAttack();
 
@@ -80,7 +74,6 @@ public:
 private:
 	// montage
 	UAnimInstance* GetAnimInstanceOrWarn() const;
-	void PlayMontageFromSection(UAnimInstance* AnimInstance, UAnimMontage* Montage, FName Section);
 	bool IsPlayingActionMontage() const;
 
 public:

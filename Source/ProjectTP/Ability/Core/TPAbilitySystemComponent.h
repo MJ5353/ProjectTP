@@ -45,6 +45,7 @@ public:
 
 	// Ability Tag ------------------------------------------------
 	const FGameplayAbilitySpec* FindAbilitySpecByTag(const FGameplayTag& Tag) const;
+	void AbilityInputPressedByTag(const FGameplayTag& Tag);
 
 	UFUNCTION(BlueprintCallable, Category = "MJ - Ability")
 	bool TryActivateAbilityByTag(FGameplayTag Tag);
