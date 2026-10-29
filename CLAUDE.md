@@ -24,6 +24,7 @@ UE 5.7 타격감·카메라 연출 데모 (포트폴리오용). Third Person C++
 - 내 코드의 include는 `"ProjectTP/Common/TPGameplayTags.h"`처럼 모듈 기준 전체 경로로 쓴다. cpp가 자기 헤더를 include할 때만 이름만 쓴다. 새 폴더를 `PublicIncludePaths`에 추가하지 않는다 (남아 있는 항목은 Epic 템플릿용).
 
 ## 코드 규칙 (UE C++)
+- 코드 스타일은 `Memo/CodeStyle.md`(ProjectSP 스타일)를 따른다. 새로 쓰는 코드와 고치는 코드 모두 적용한다.
 - 핵심 로직은 C++. BP는 에셋 연결용 자식 클래스만 둔다 (AnimBP, GameplayCue 노티파이, 에셋 레퍼런스 지정). BP는 바이너리라 PR 리뷰가 안 된다.
 - Epic 코딩 표준을 따른다: 타입 접두사(A/U/F/E/I/T), bool은 `b` 접두사, PascalCase.
 - UObject 멤버 포인터는 `UPROPERTY()` + `TObjectPtr<>`. GC에 잡히지 않는 raw 포인터를 두지 않는다.

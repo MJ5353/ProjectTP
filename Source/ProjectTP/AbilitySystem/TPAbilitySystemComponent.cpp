@@ -1,8 +1,8 @@
 ﻿#include "TPAbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "ProjectTP/AbilitySystem/Attributes/TPHealthAttributeSet.h"
-#include "ProjectTP/AbilitySystem/TPAbilityDefinition.h"
-#include "ProjectTP/AbilitySystem/TPAttributeDefinition.h"
+#include "ProjectTP/Definition/TPAbilityDefinition.h"
+#include "ProjectTP/Definition/TPAttributeDefinition.h"
 #include "ProjectTP/AbilitySystem/TPGameplayAbility.h"
 #include "ProjectTP/Common/TPGameplayTags.h"
 
