@@ -2,7 +2,7 @@
 #include "Animation/AnimInstance.h"
 #include "Animation/AnimMontage.h"
 #include "EnhancedInputComponent.h"
-#include "ProjectTP/AbilitySystem/TPAbilitySystemComponent.h"
+#include "ProjectTP/Ability/Core/TPAbilitySystemComponent.h"
 #include "ProjectTP/Common/TPLog.h"
 
 // ==================================================

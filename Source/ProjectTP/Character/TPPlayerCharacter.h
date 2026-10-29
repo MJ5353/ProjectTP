@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "ProjectTP/ProjectTPCharacter.h"
+#include "ProjectTP/Character/TPCharacter.h"
 #include "TPPlayerCharacter.generated.h"
 
 class UAnimInstance;
@@ -15,7 +15,7 @@ class UTPAttributeDefinition;
 // ==================================================
 
 UCLASS(Abstract)
-class PROJECTTP_API ATPPlayerCharacter : public AProjectTPCharacter, public IAbilitySystemInterface
+class PROJECTTP_API ATPPlayerCharacter : public ATPCharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 

@@ -140,7 +140,7 @@ Category `"MJ - "` 접두사는 방향만 정했고 세부는 보류 중 (26.10.
 
 ```cpp
 #include "TPGrantedHandles.h"
-#include "ProjectTP/AbilitySystem/TPAbilitySystemComponent.h"
+#include "ProjectTP/Ability/Core/TPAbilitySystemComponent.h"
 
 // ==================================================
 

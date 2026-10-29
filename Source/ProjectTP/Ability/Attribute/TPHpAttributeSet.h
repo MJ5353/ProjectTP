@@ -2,20 +2,20 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
-#include "ProjectTP/AbilitySystem/Attributes/TPAttributeSet.h"
-#include "TPHealthAttributeSet.generated.h"
+#include "ProjectTP/Ability/Attribute/TPAttributeSet.h"
+#include "TPHpAttributeSet.generated.h"
 
 // ==================================================
 
 UCLASS()
-class PROJECTTP_API UTPHealthAttributeSet : public UTPAttributeSet
+class PROJECTTP_API UTPHpAttributeSet : public UTPAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	TP_ATTRIBUTE_ACCESSORS(UTPHealthAttributeSet, CurrentHp);
-	TP_ATTRIBUTE_ACCESSORS(UTPHealthAttributeSet, MaxHp);
-	TP_ATTRIBUTE_ACCESSORS(UTPHealthAttributeSet, Damage);
+	TP_ATTRIBUTE_ACCESSORS(UTPHpAttributeSet, CurrentHp);
+	TP_ATTRIBUTE_ACCESSORS(UTPHpAttributeSet, MaxHp);
+	TP_ATTRIBUTE_ACCESSORS(UTPHpAttributeSet, Damage);
 
 	// ------------------------------------------------
 

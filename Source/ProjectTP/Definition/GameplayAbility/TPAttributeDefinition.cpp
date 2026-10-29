@@ -1,7 +1,7 @@
 ﻿#include "TPAttributeDefinition.h"
 #include "AbilitySystemComponent.h"
-#include "ProjectTP/AbilitySystem/Attributes/TPAttributeSet.h"
-#include "ProjectTP/AbilitySystem/TPGrantedAttributeSets.h"
+#include "ProjectTP/Ability/Attribute/TPAttributeSet.h"
+#include "ProjectTP/Ability/Core/TPGrantedAttributeSets.h"
 
 // ==================================================
 

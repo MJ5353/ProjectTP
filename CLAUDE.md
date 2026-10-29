@@ -13,7 +13,7 @@ UE 5.7 타격감·카메라 연출 데모 (포트폴리오용). Third Person C++
 ## 폴더 규칙
 | 경로 | 내용 | git |
 |---|---|---|
-| `Source/ProjectTP/` | 내 C++ 코드. 기능별 하위 폴더로 나눈다 (예: `Common/`, `AbilitySystem/`, `HitFeel/`, `Camera/`) | 포함 |
+| `Source/ProjectTP/` | 내 C++ 코드. 기능별 하위 폴더로 나눈다 (예: `Common/`, `Ability/`, `Definition/`, `Character/`, `GameFramework/`, `HitFeel/`, `Camera/`) | 포함 |
 | `Source/ProjectTP/Variant_Combat/` | Epic 템플릿 코드. 참고만 하고 수정하지 않는다 | 포함 |
 | `Content/ProjectTP/` | 직접 만든 몽타주·BP·머티리얼·DataTable·맵 | 포함 (LFS) |
 | `Content/ThirdParty/` | Paragon 애니, Infinity Blade 이펙트 등 외부 에셋 | 제외 |

@@ -1,12 +1,12 @@
-﻿#include "TPHealthAttributeSet.h"
+﻿#include "TPHpAttributeSet.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
-#include "ProjectTP/AbilitySystem/TPAbilitySystemComponent.h"
+#include "ProjectTP/Ability/Core/TPAbilitySystemComponent.h"
 #include "ProjectTP/Common/TPGameplayTags.h"
 
 // ==================================================
 
-void UTPHealthAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const
+void UTPHpAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const
 {
 	Super::PreAttributeBaseChange(Attribute, NewValue);
 
@@ -14,7 +14,7 @@ void UTPHealthAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& Att
 		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHp());
 }
 
-void UTPHealthAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+void UTPHpAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
 
@@ -46,15 +46,15 @@ void UTPHealthAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCa
 	}
 }
 
-void UTPHealthAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void UTPHpAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME_CONDITION_NOTIFY(UTPHealthAttributeSet, CurrentHp, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UTPHealthAttributeSet, MaxHp, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UTPHpAttributeSet, CurrentHp, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UTPHpAttributeSet, MaxHp, COND_None, REPNOTIFY_Always);
 }
 
-void UTPHealthAttributeSet::SetAndCheckCurrentHp(const float NewHp)
+void UTPHpAttributeSet::SetAndCheckCurrentHp(const float NewHp)
 {
 	SetCurrentHp(NewHp);
 
@@ -65,12 +65,12 @@ void UTPHealthAttributeSet::SetAndCheckCurrentHp(const float NewHp)
 		ASC->SetLooseGameplayTagCount(TPGameplayTags::StateTag_Dead, 1, EGameplayTagReplicationState::TagOnly);
 }
 
-void UTPHealthAttributeSet::OnRep_CurrentHp(const FGameplayAttributeData& OldHp)
+void UTPHpAttributeSet::OnRep_CurrentHp(const FGameplayAttributeData& OldHp)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UTPHealthAttributeSet, CurrentHp, OldHp);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UTPHpAttributeSet, CurrentHp, OldHp);
 }
 
-void UTPHealthAttributeSet::OnRep_MaxHp(const FGameplayAttributeData& OldMaxHp)
+void UTPHpAttributeSet::OnRep_MaxHp(const FGameplayAttributeData& OldMaxHp)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UTPHealthAttributeSet, MaxHp, OldMaxHp);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UTPHpAttributeSet, MaxHp, OldMaxHp);
 }

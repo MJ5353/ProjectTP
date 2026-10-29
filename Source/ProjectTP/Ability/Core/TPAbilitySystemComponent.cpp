@@ -1,9 +1,9 @@
 ﻿#include "TPAbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
-#include "ProjectTP/AbilitySystem/Attributes/TPHealthAttributeSet.h"
-#include "ProjectTP/Definition/TPAbilityDefinition.h"
-#include "ProjectTP/Definition/TPAttributeDefinition.h"
-#include "ProjectTP/AbilitySystem/TPGameplayAbility.h"
+#include "ProjectTP/Ability/Attribute/TPHpAttributeSet.h"
+#include "ProjectTP/Definition/GameplayAbility/TPAbilityDefinition.h"
+#include "ProjectTP/Definition/GameplayAbility/TPAttributeDefinition.h"
+#include "ProjectTP/Ability/Core/TPGameplayAbility.h"
 #include "ProjectTP/Common/TPGameplayTags.h"
 
 // ==================================================
@@ -81,8 +81,8 @@ void UTPAbilitySystemComponent::RestoreHp_Server()
 	SetLooseGameplayTagCount(TPGameplayTags::StateTag_Dead, 0, EGameplayTagReplicationState::TagOnly);
 
 	// 초기화 전용이라 값을 직접 쓴다. 전투 중 회복은 GameplayEffect로만 한다
-	if (GetSet<UTPHealthAttributeSet>())
-		SetNumericAttributeBase(UTPHealthAttributeSet::GetCurrentHpAttribute(), GetNumericAttribute(UTPHealthAttributeSet::GetMaxHpAttribute()));
+	if (GetSet<UTPHpAttributeSet>())
+		SetNumericAttributeBase(UTPHpAttributeSet::GetCurrentHpAttribute(), GetNumericAttribute(UTPHpAttributeSet::GetMaxHpAttribute()));
 }
 
 // Ability Tag ------------------------------------------------

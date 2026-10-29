@@ -1,7 +1,7 @@
 ﻿#include "TPAbilityDefinition.h"
 #include "AbilitySystemComponent.h"
-#include "ProjectTP/AbilitySystem/TPGameplayAbility.h"
-#include "ProjectTP/AbilitySystem/TPGrantedAbilityHandles.h"
+#include "ProjectTP/Ability/Core/TPGameplayAbility.h"
+#include "ProjectTP/Ability/Core/TPGrantedAbilityHandles.h"
 
 // ==================================================
 

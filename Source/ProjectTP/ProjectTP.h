@@ -1,8 +1,8 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 
-/** Main log category used across the project */
+// ==================================================
+
+// Epic 템플릿 코드(Variant_Combat)가 쓰는 로그. 우리 코드는 LogMj를 쓴다
 DECLARE_LOG_CATEGORY_EXTERN(LogProjectTP, Log, All);
