@@ -5,8 +5,6 @@
 #include "ProjectTP/Character/TPCharacter.h"
 #include "TPPlayerCharacter.generated.h"
 
-class UAnimInstance;
-class UAnimMontage;
 class UInputAction;
 class UTPAbilityDefinition;
 class UTPAbilitySystemComponent;
@@ -40,10 +38,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TObjectPtr<UInputAction> DodgeAction;
 
-	// montage
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
-	TObjectPtr<UAnimMontage> DodgeMontage;
-
 	// 다시 빙의돼도 HP·진행 중인 어빌리티를 초기화하지 않도록 지급은 한 번만 한다
 	bool bAbilitySystemSetUp = false;
 
@@ -58,7 +52,7 @@ protected:
 
 public:
 	// Action ------------------------------------------------
-	// 약공·강공은 어빌리티로 넘긴다. 회피만 임시로 몽타주를 직접 재생(GAS 어빌리티로 옮길 예정)
+	// 입력을 Ability.Key 태그로 ASC에 넘긴다. 서로 막기·끊기는 GA 태그가 판단한다
 	UFUNCTION(BlueprintCallable, Category = "MJ - Combat")
 	void DoLightAttack();
 
@@ -67,11 +61,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "MJ - Combat")
 	void DoDodge();
-
-private:
-	// montage
-	UAnimInstance* GetAnimInstanceOrWarn() const;
-	bool IsPlayingActionMontage() const;
 
 public:
 	// Get ------------------------------------------------

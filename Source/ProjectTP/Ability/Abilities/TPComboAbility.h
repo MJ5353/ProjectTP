@@ -22,12 +22,11 @@ protected:
 	TArray<FName> ComboSections;
 
 	int32 ComboIndex = 0;
-	bool bComboAvailable = false;
 
 public:
 	UTPComboAbility(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
-private:
+protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 	virtual void InputPressed(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) override;
 
@@ -36,12 +35,6 @@ private:
 	void QueueNextSection();
 
 	// ------------------------------------------------
-
-	UFUNCTION()
-	void OnComboAvailable(FGameplayEventData Payload);
-
-	UFUNCTION()
-	void OnComboUnavailable(FGameplayEventData Payload);
 
 	UFUNCTION()
 	void OnMontageEnded();
