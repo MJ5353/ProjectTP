@@ -113,7 +113,10 @@ UPROPERTY 없이 그냥 멤버로 두는 것:
 - 숫자·태그 같은 UObject가 아닌 상태
 - 네이티브 델리게이트 (`DECLARE_MULTICAST_DELEGATE...`)
 
-Category `"MJ - "` 접두사는 방향만 정했고 세부는 보류 중 (26.10.29).
+Category 규칙 (26.10.29 확정):
+- 구분자는 `"MJ - "`.
+- UPROPERTY는 위 표의 역할 이름(Component·Setting·Public·Replicate·Runtime), UFUNCTION은 기능 묶음 이름(Ability·Combat·Input 등)을 쓴다.
+- 하위 카테고리는 기본으로 쓰지 않는다. 한 클래스에 Setting이 많아지면 헤더의 묶음 주석과 같은 이름으로 `"MJ - Setting|Input"`처럼 나눌 수 있다.
 
 ## UFUNCTION
 
