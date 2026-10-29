@@ -42,9 +42,6 @@ protected:
 
 	// montage
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
-	TObjectPtr<UAnimMontage> HeavyAttackMontage;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TObjectPtr<UAnimMontage> DodgeMontage;
 
 	// 다시 빙의돼도 HP·진행 중인 어빌리티를 초기화하지 않도록 지급은 한 번만 한다
@@ -61,7 +58,7 @@ protected:
 
 public:
 	// Action ------------------------------------------------
-	// 약공은 어빌리티로 넘긴다. 강공격·회피는 임시로 몽타주를 직접 재생(GAS 어빌리티로 옮길 예정)
+	// 약공·강공은 어빌리티로 넘긴다. 회피만 임시로 몽타주를 직접 재생(GAS 어빌리티로 옮길 예정)
 	UFUNCTION(BlueprintCallable, Category = "MJ - Combat")
 	void DoLightAttack();
 

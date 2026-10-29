@@ -61,20 +61,11 @@ void ATPPlayerCharacter::DoLightAttack()
 
 void ATPPlayerCharacter::DoHeavyAttack()
 {
-	UAnimInstance* AnimInstance = GetAnimInstanceOrWarn();
-	if (!AnimInstance)
+	if (IsPlayingActionMontage())
 		return;
 
-	if (!HeavyAttackMontage)
-	{
-		UE_LOG(LogMj, Warning, TEXT("%s: HeavyAttackMontage is not set"), *GetName());
-		return;
-	}
-
-	if (IsPlayingActionMontage() || AbilitySystemComponent->IsAbilityActiveByTag(TPGameplayTags::AbilityKeyTag_LightAttack))
-		return;
-
-	AnimInstance->Montage_Play(HeavyAttackMontage);
+	// 약공 중에 막는 건 GA의 State.Attack 태그(Activation Owned·Blocked Tags)가 한다
+	AbilitySystemComponent->AbilityInputPressedByTag(TPGameplayTags::AbilityKeyTag_HeavyAttack);
 }
 
 void ATPPlayerCharacter::DoDodge()
@@ -119,17 +110,9 @@ UAnimInstance* ATPPlayerCharacter::GetAnimInstanceOrWarn() const
 bool ATPPlayerCharacter::IsPlayingActionMontage() const
 {
 	const UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	if (!AnimInstance)
-		return false;
 
 	// Montage_IsPlaying(nullptr)은 아무 몽타주나 재생 중이면 true라서 null을 먼저 거른다
-	for (const UAnimMontage* Montage : { HeavyAttackMontage.Get(), DodgeMontage.Get() })
-	{
-		if (Montage && AnimInstance->Montage_IsPlaying(Montage))
-			return true;
-	}
-
-	return false;
+	return AnimInstance && DodgeMontage && AnimInstance->Montage_IsPlaying(DodgeMontage);
 }
 
 // Get ------------------------------------------------
