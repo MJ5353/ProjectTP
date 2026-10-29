@@ -55,7 +55,7 @@ void UTPAbilitySystemComponent::RestoreHP()
 
 	if (GetSet<UTPHealthAttributeSet>())
 	{
-		SetNumericAttributeBase(UTPHealthAttributeSet::GetCurrentHPAttribute(), GetNumericAttribute(UTPHealthAttributeSet::GetMaxHPAttribute()));
+		SetNumericAttributeBase(UTPHealthAttributeSet::GetCurrentHpAttribute(), GetNumericAttribute(UTPHealthAttributeSet::GetMaxHpAttribute()));
 	}
 }
 

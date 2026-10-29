@@ -10,10 +10,8 @@ void UTPHealthAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& Att
 {
 	Super::PreAttributeBaseChange(Attribute, NewValue);
 
-	if (Attribute == GetCurrentHPAttribute())
-	{
-		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHP());
-	}
+	if (Attribute == GetCurrentHpAttribute())
+		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHp());
 }
 
 void UTPHealthAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
@@ -29,24 +27,22 @@ void UTPHealthAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCa
 		SetDamage(0.f);
 
 		// 이미 죽은 대상에 들어온 데미지는 버린다. 이번 데미지로 죽는 타격은 그대로 알린다
-		if (AppliedDamage > 0.f && GetCurrentHP() > 0.f)
+		if (AppliedDamage > 0.f && GetCurrentHp() > 0.f)
 		{
-			SetCurrentHPAndCheckDead(FMath::Clamp(GetCurrentHP() - AppliedDamage, 0.f, GetMaxHP()));
+			SetAndCheckCurrentHp(FMath::Clamp(GetCurrentHp() - AppliedDamage, 0.f, GetMaxHp()));
 
 			if (UTPAbilitySystemComponent* TPASC = Cast<UTPAbilitySystemComponent>(GetOwningAbilitySystemComponent()))
-			{
 				TPASC->NotifyDamageApplied(Data.EffectSpec.GetEffectContext().GetOriginalInstigator(), AppliedDamage);
-			}
 		}
 	}
-	else if (ModifiedAttribute == GetCurrentHPAttribute())
+	else if (ModifiedAttribute == GetCurrentHpAttribute())
 	{
-		SetCurrentHPAndCheckDead(FMath::Clamp(GetCurrentHP(), 0.f, GetMaxHP()));
+		SetAndCheckCurrentHp(FMath::Clamp(GetCurrentHp(), 0.f, GetMaxHp()));
 	}
-	else if (ModifiedAttribute == GetMaxHPAttribute())
+	else if (ModifiedAttribute == GetMaxHpAttribute())
 	{
-		SetMaxHP(FMath::Max(GetMaxHP(), 1.f));
-		SetCurrentHPAndCheckDead(FMath::Clamp(GetCurrentHP(), 0.f, GetMaxHP()));
+		SetMaxHp(FMath::Max(GetMaxHp(), 1.f));
+		SetAndCheckCurrentHp(FMath::Clamp(GetCurrentHp(), 0.f, GetMaxHp()));
 	}
 }
 
@@ -54,31 +50,27 @@ void UTPHealthAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME_CONDITION_NOTIFY(UTPHealthAttributeSet, CurrentHP, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UTPHealthAttributeSet, MaxHP, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UTPHealthAttributeSet, CurrentHp, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UTPHealthAttributeSet, MaxHp, COND_None, REPNOTIFY_Always);
 }
 
-void UTPHealthAttributeSet::SetCurrentHPAndCheckDead(float NewHP)
+void UTPHealthAttributeSet::SetAndCheckCurrentHp(const float NewHp)
 {
-	SetCurrentHP(NewHP);
+	SetCurrentHp(NewHp);
 
-	if (NewHP > 0.f)
-	{
+	if (NewHp > 0.f)
 		return;
-	}
 
 	if (UAbilitySystemComponent* ASC = GetOwningAbilitySystemComponent())
-	{
 		ASC->SetLooseGameplayTagCount(TPGameplayTags::StateTag_Dead, 1, EGameplayTagReplicationState::TagOnly);
-	}
 }
 
-void UTPHealthAttributeSet::OnRep_CurrentHP(const FGameplayAttributeData& OldHP)
+void UTPHealthAttributeSet::OnRep_CurrentHp(const FGameplayAttributeData& OldHp)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UTPHealthAttributeSet, CurrentHP, OldHP);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UTPHealthAttributeSet, CurrentHp, OldHp);
 }
 
-void UTPHealthAttributeSet::OnRep_MaxHP(const FGameplayAttributeData& OldMaxHP)
+void UTPHealthAttributeSet::OnRep_MaxHp(const FGameplayAttributeData& OldMaxHp)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UTPHealthAttributeSet, MaxHP, OldMaxHP);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UTPHealthAttributeSet, MaxHp, OldMaxHp);
 }
