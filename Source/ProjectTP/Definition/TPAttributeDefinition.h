@@ -34,7 +34,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TArray<TSubclassOf<UTPAttributeSet>> AttributeSets;
 
-	// 배열 순서대로 넣는다. CurrentHp는 그 시점의 MaxHp로 잘리므로 넣지 말고 MaxHp만 넣는다 (CurrentHp는 ASC의 RestoreHp가 채움)
+	// 배열 순서대로 넣는다. CurrentHp는 그 시점의 MaxHp로 잘리므로 넣지 말고 MaxHp만 넣는다 (CurrentHp는 ASC의 RestoreHp_Server가 채움)
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TArray<FTPAttributeInitValue> InitialValues;
 

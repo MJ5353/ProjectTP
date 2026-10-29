@@ -27,7 +27,7 @@ void ATPPlayerCharacter::PossessedBy(AController* NewController)
 	// 지급은 처음 한 번만
 	if (!bAbilitySystemSetUp)
 	{
-		AbilitySystemComponent->SetUp(AbilityDefinition, AttributeDefinition);
+		AbilitySystemComponent->SetUp_Server(AbilityDefinition, AttributeDefinition);
 		bAbilitySystemSetUp = true;
 	}
 }

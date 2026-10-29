@@ -62,6 +62,7 @@ ProjectSP에서 쓰던 C++ 스타일을 정리한 것. ProjectTP도 이 스타�
 
 - 약어는 첫 글자만 대문자: `Hp` (`CurrentHp`, `RestoreHp`).
 - 네트워크 방향은 함수 이름 끝에 `_Server` / `_Client` (`SetUnitActive_Server`).
+  - 서버(또는 클라)에서만 불러야 하는 진입 함수에 붙인다. 안에서 권한을 검사해 조용히 끝나더라도 붙인다 (`SetUp_Server`, `RestoreHp_Server`). 그 쪽에서만 도는 처리 안에서 부르는 내부 함수(`NotifyDamageApplied`)와 protected 함수는 붙이지 않는다.
 - 어빌리티 찾기 함수는 `...ByTag` (`FindAbilitySpecByTag`, `TryActivateAbilityByTag`).
 - GameplayTag
   - 네이티브 태그를 네임스페이스 하나에 모은다 (`TPGameplayTags`, ProjectTP는 `Common/TPGameplayTags`).
@@ -113,6 +114,13 @@ UPROPERTY 없이 그냥 멤버로 두는 것:
 - 네이티브 델리게이트 (`DECLARE_MULTICAST_DELEGATE...`)
 
 Category `"MJ - "` 접두사는 방향만 정했고 세부는 보류 중 (26.10.29).
+
+## UFUNCTION
+
+- BP에 노출하는 UFUNCTION(BlueprintCallable, BlueprintPure, BlueprintImplementableEvent, BlueprintNativeEvent)에는 Category를 항상 붙인다.
+  - 예: `UFUNCTION(BlueprintCallable, Category = "MJ - Ability")`
+- Category 이름은 기능 묶음 단위로 쓴다 (`"MJ - Ability"`, `"MJ - Unit"` 등).
+- OnRep처럼 BP에 노출하지 않는 `UFUNCTION()`에는 붙이지 않는다.
 
 ## Rider 라이브 템플릿
 
