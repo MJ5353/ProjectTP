@@ -1,7 +1,7 @@
 ﻿#include "TPAttributeDefinition.h"
 #include "AbilitySystemComponent.h"
-#include "TPAttributeSet.h"
-#include "TPGrantedHandles.h"
+#include "ProjectTP/AbilitySystem/Attributes/TPAttributeSet.h"
+#include "ProjectTP/AbilitySystem/TPGrantedHandles.h"
 
 void UTPAttributeDefinition::GiveToAbilitySystem(UAbilitySystemComponent* ASC, FTPGrantedAttributeSets& OutGrantedSets) const
 {

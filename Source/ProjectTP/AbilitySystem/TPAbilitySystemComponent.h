@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
-#include "TPGrantedHandles.h"
+#include "ProjectTP/AbilitySystem/TPGrantedHandles.h"
 #include "TPAbilitySystemComponent.generated.h"
 
 class UTPAbilityDefinition;

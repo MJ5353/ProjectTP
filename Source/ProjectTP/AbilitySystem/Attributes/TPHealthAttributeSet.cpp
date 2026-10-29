@@ -1,8 +1,8 @@
 ﻿#include "TPHealthAttributeSet.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
-#include "TPAbilitySystemComponent.h"
-#include "TPGameplayTags.h"
+#include "ProjectTP/AbilitySystem/TPAbilitySystemComponent.h"
+#include "ProjectTP/Common/TPGameplayTags.h"
 
 void UTPHealthAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const
 {
@@ -67,7 +67,7 @@ void UTPHealthAttributeSet::SetCurrentHPAndCheckDead(float NewHP)
 
 	if (UAbilitySystemComponent* ASC = GetOwningAbilitySystemComponent())
 	{
-		ASC->SetLooseGameplayTagCount(TPGameplayTags::State_Dead, 1, EGameplayTagReplicationState::TagOnly);
+		ASC->SetLooseGameplayTagCount(TPGameplayTags::StateTag_Dead, 1, EGameplayTagReplicationState::TagOnly);
 	}
 }
 

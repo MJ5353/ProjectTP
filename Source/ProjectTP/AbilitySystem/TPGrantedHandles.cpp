@@ -1,6 +1,6 @@
 ﻿#include "TPGrantedHandles.h"
 #include "AbilitySystemComponent.h"
-#include "TPAttributeSet.h"
+#include "ProjectTP/AbilitySystem/Attributes/TPAttributeSet.h"
 
 void FTPGrantedAbilityHandles::Add(const FGameplayTag& AbilityKey, const FGameplayAbilitySpecHandle& Handle)
 {

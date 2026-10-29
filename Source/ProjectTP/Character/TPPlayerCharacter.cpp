@@ -2,8 +2,8 @@
 #include "Animation/AnimInstance.h"
 #include "Animation/AnimMontage.h"
 #include "EnhancedInputComponent.h"
-#include "ProjectTP.h"
-#include "TPAbilitySystemComponent.h"
+#include "ProjectTP/AbilitySystem/TPAbilitySystemComponent.h"
+#include "ProjectTP/Common/TPLog.h"
 
 ATPPlayerCharacter::ATPPlayerCharacter()
 {
@@ -45,7 +45,7 @@ void ATPPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 			}
 			else
 			{
-				UE_LOG(LogProjectTP, Warning, TEXT("%s: %s is not set"), *GetName(), ActionName);
+				UE_LOG(LogMj, Warning, TEXT("%s: %s is not set"), *GetName(), ActionName);
 			}
 		};
 
@@ -65,7 +65,7 @@ void ATPPlayerCharacter::DoLightAttack()
 
 	if (!LightAttackMontage || LightComboSections.IsEmpty())
 	{
-		UE_LOG(LogProjectTP, Warning, TEXT("%s: LightAttackMontage or LightComboSections is not set"), *GetName());
+		UE_LOG(LogMj, Warning, TEXT("%s: LightAttackMontage or LightComboSections is not set"), *GetName());
 		return;
 	}
 
@@ -99,7 +99,7 @@ void ATPPlayerCharacter::DoHeavyAttack()
 
 	if (!HeavyAttackMontage)
 	{
-		UE_LOG(LogProjectTP, Warning, TEXT("%s: HeavyAttackMontage is not set"), *GetName());
+		UE_LOG(LogMj, Warning, TEXT("%s: HeavyAttackMontage is not set"), *GetName());
 		return;
 	}
 
@@ -121,7 +121,7 @@ void ATPPlayerCharacter::DoDodge()
 
 	if (!DodgeMontage)
 	{
-		UE_LOG(LogProjectTP, Warning, TEXT("%s: DodgeMontage is not set"), *GetName());
+		UE_LOG(LogMj, Warning, TEXT("%s: DodgeMontage is not set"), *GetName());
 		return;
 	}
 
@@ -133,7 +133,7 @@ void ATPPlayerCharacter::DoDodge()
 	// 같은 슬롯의 공격 몽타주는 여기서 끊긴다
 	if (AnimInstance->Montage_Play(DodgeMontage) <= 0.f)
 	{
-		UE_LOG(LogProjectTP, Warning, TEXT("%s: Failed to play DodgeMontage"), *GetName());
+		UE_LOG(LogMj, Warning, TEXT("%s: Failed to play DodgeMontage"), *GetName());
 		return;
 	}
 
@@ -150,7 +150,7 @@ UAnimInstance* ATPPlayerCharacter::GetAnimInstanceOrWarn() const
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if (!AnimInstance)
 	{
-		UE_LOG(LogProjectTP, Warning, TEXT("%s: Mesh has no AnimInstance"), *GetName());
+		UE_LOG(LogMj, Warning, TEXT("%s: Mesh has no AnimInstance"), *GetName());
 	}
 	return AnimInstance;
 }

@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
-#include "TPAttributeSet.h"
+#include "ProjectTP/AbilitySystem/Attributes/TPAttributeSet.h"
 #include "TPHealthAttributeSet.generated.h"
 
 /**

@@ -1,7 +1,7 @@
 ﻿#include "TPAbilityDefinition.h"
 #include "AbilitySystemComponent.h"
-#include "TPGameplayAbility.h"
-#include "TPGrantedHandles.h"
+#include "ProjectTP/AbilitySystem/TPGameplayAbility.h"
+#include "ProjectTP/AbilitySystem/TPGrantedHandles.h"
 
 void UTPAbilityDefinition::GiveToAbilitySystem(UAbilitySystemComponent* ASC, FTPGrantedAbilityHandles& OutGrantedHandles, UObject* SourceObject) const
 {

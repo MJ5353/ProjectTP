@@ -1,10 +1,10 @@
 ﻿#include "TPAbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
-#include "TPAbilityDefinition.h"
-#include "TPAttributeDefinition.h"
-#include "TPGameplayAbility.h"
-#include "TPGameplayTags.h"
-#include "TPHealthAttributeSet.h"
+#include "ProjectTP/AbilitySystem/Attributes/TPHealthAttributeSet.h"
+#include "ProjectTP/AbilitySystem/TPAbilityDefinition.h"
+#include "ProjectTP/AbilitySystem/TPAttributeDefinition.h"
+#include "ProjectTP/AbilitySystem/TPGameplayAbility.h"
+#include "ProjectTP/Common/TPGameplayTags.h"
 
 void UTPAbilitySystemComponent::SetUp(const UTPAbilityDefinition* AbilityDefinition, const UTPAttributeDefinition* AttributeDefinition)
 {
@@ -49,7 +49,7 @@ void UTPAbilitySystemComponent::RestoreHP()
 	}
 
 	// 리스폰·리트라이에서 이것만 불러도 살아난 상태가 되도록 사망 태그를 같이 푼다
-	SetLooseGameplayTagCount(TPGameplayTags::State_Dead, 0, EGameplayTagReplicationState::TagOnly);
+	SetLooseGameplayTagCount(TPGameplayTags::StateTag_Dead, 0, EGameplayTagReplicationState::TagOnly);
 
 	if (GetSet<UTPHealthAttributeSet>())
 	{
@@ -74,7 +74,7 @@ void UTPAbilitySystemComponent::NotifyDamageApplied(AActor* Instigator, float Ap
 	}
 
 	FGameplayEventData HitEventData;
-	HitEventData.EventTag = TPGameplayTags::Event_Hit;
+	HitEventData.EventTag = TPGameplayTags::EventTag_Hit;
 	HitEventData.Instigator = Instigator;
 	HitEventData.Target = Avatar;
 	HitEventData.EventMagnitude = AppliedDamage;

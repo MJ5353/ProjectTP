@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "ProjectTPCharacter.h"
+#include "ProjectTP/ProjectTPCharacter.h"
 #include "TPPlayerCharacter.generated.h"
 
 class UAnimInstance;

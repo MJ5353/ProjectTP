@@ -1,12 +1,12 @@
 ﻿#include "TPAttributeSet.h"
-#include "ProjectTP.h"
+#include "ProjectTP/Common/TPLog.h"
 
 namespace
 {
 	void LogAttributeChange(const UTPAttributeSet* AttributeSet, const TCHAR* ValueType, const FGameplayAttribute& Attribute, float OldValue, float NewValue)
 	{
 #if !UE_BUILD_SHIPPING
-		UE_LOG(LogProjectTP, Verbose, TEXT("[%s][%s] %s: %.2f -> %.2f"), *GetNameSafe(AttributeSet->GetOwningActor()), ValueType, *Attribute.GetName(), OldValue, NewValue);
+		UE_LOG(LogMj, Verbose, TEXT("[%s][%s] %s: %.2f -> %.2f"), *GetNameSafe(AttributeSet->GetOwningActor()), ValueType, *Attribute.GetName(), OldValue, NewValue);
 #endif
 	}
 }
