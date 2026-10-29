@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "ProjectTPCharacter.h"
+#include "ProjectTP/Character/TPCharacter.h"
 #include "TPPlayerCharacter.generated.h"
 
 class UAnimInstance;
@@ -12,96 +12,79 @@ class UTPAbilityDefinition;
 class UTPAbilitySystemComponent;
 class UTPAttributeDefinition;
 
-/**
- *  플레이어 캐릭터 (Greystone)
- *  ASC는 캐릭터가 직접 가진다 (싱글 플레이 데모라 PlayerState에 두지 않음).
- *  1일차 임시 연결: 공격·회피 입력 → 몽타주 재생. GAS 어빌리티로 교체할 예정.
- */
-UCLASS(abstract)
-class ATPPlayerCharacter : public AProjectTPCharacter, public IAbilitySystemInterface
+// ==================================================
+
+UCLASS(Abstract)
+class PROJECTTP_API ATPPlayerCharacter : public ATPCharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta=(AllowPrivateAccess="true"))
+protected:
+	// 싱글 플레이 데모라 ASC를 PlayerState가 아니라 캐릭터가 직접 가진다
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MJ - Component")
 	TObjectPtr<UTPAbilitySystemComponent> AbilitySystemComponent;
 
-protected:
-
-	/** 지급할 어빌리티 */
-	UPROPERTY(EditAnywhere, Category="Combat|GAS")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TObjectPtr<UTPAbilityDefinition> AbilityDefinition;
 
-	/** 붙일 어트리뷰트와 초기값 */
-	UPROPERTY(EditAnywhere, Category="Combat|GAS")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TObjectPtr<UTPAttributeDefinition> AttributeDefinition;
 
-	/** 약공격 입력 */
-	UPROPERTY(EditAnywhere, Category="Input")
+	// input
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TObjectPtr<UInputAction> LightAttackAction;
 
-	/** 강공격 입력 */
-	UPROPERTY(EditAnywhere, Category="Input")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TObjectPtr<UInputAction> HeavyAttackAction;
 
-	/** 회피 입력 */
-	UPROPERTY(EditAnywhere, Category="Input")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TObjectPtr<UInputAction> DodgeAction;
 
-	/** 약공 3타 몽타주. 섹션마다 1타씩 두고, 다음 타는 입력이 들어올 때만 이어진다 */
-	UPROPERTY(EditAnywhere, Category="Combat|Montage")
+	// montage
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TObjectPtr<UAnimMontage> LightAttackMontage;
 
-	/** 약공 몽타주의 섹션 이름 (타수 순서) */
-	UPROPERTY(EditAnywhere, Category="Combat|Montage")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TArray<FName> LightComboSections = { TEXT("Attack1"), TEXT("Attack2"), TEXT("Attack3") };
 
-	/** 강공격 몽타주 */
-	UPROPERTY(EditAnywhere, Category="Combat|Montage")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TObjectPtr<UAnimMontage> HeavyAttackMontage;
 
-	/** 회피 몽타주 (루트 모션) */
-	UPROPERTY(EditAnywhere, Category="Combat|Montage")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
 	TObjectPtr<UAnimMontage> DodgeMontage;
 
-public:
+	// 다시 빙의돼도 HP·진행 중인 어빌리티를 초기화하지 않도록 지급은 한 번만 한다
+	bool bAbilitySystemSetUp = false;
 
+	// ------------------------------------------------
+
+public:
 	ATPPlayerCharacter();
 
-	//~ IAbilitySystemInterface
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-
-	UTPAbilitySystemComponent* GetTPAbilitySystemComponent() const { return AbilitySystemComponent; }
-
 protected:
-
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 public:
-
-	/** 약공격. 공격 중에 누르면 현재 타가 끝난 뒤 다음 타로 이어진다 */
-	UFUNCTION(BlueprintCallable, Category="Combat")
+	// Action ------------------------------------------------
+	// 임시: 입력 → 몽타주 재생. GAS 어빌리티로 옮길 예정
+	UFUNCTION(BlueprintCallable, Category = "MJ - Combat")
 	void DoLightAttack();
 
-	/** 강공격. 다른 공격·회피 중에는 무시한다 */
-	UFUNCTION(BlueprintCallable, Category="Combat")
+	UFUNCTION(BlueprintCallable, Category = "MJ - Combat")
 	void DoHeavyAttack();
 
-	/** 회피. 공격 중에도 바로 끊고 나간다 (캔슬 구간 제한은 2일차) */
-	UFUNCTION(BlueprintCallable, Category="Combat")
+	UFUNCTION(BlueprintCallable, Category = "MJ - Combat")
 	void DoDodge();
 
 private:
-
-	/** 메시의 AnimInstance. 없으면 경고 로그를 남기고 nullptr */
+	// montage
 	UAnimInstance* GetAnimInstanceOrWarn() const;
-
-	/** 몽타주를 재생하고 모든 섹션의 다음 섹션 연결을 끊는다 */
 	void PlayMontageFromSection(UAnimInstance* AnimInstance, UAnimMontage* Montage, FName Section);
-
-	/** 공격이나 회피 몽타주가 재생 중인지 */
 	bool IsPlayingActionMontage() const;
 
-	/** 어빌리티·어트리뷰트를 이미 지급했는지. 다시 빙의돼도 HP·진행 중인 어빌리티를 초기화하지 않는다 */
-	bool bAbilitySystemSetUp = false;
+public:
+	// Get ------------------------------------------------
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UTPAbilitySystemComponent* GetTPAbilitySystemComponent() const { return AbilitySystemComponent; }
 };
