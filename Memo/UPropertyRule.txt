@@ -1,0 +1,23 @@
+uobjconstructor - FObjectInitializer 매크로용
+const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()
+
+uproperty_component - 생성자에서 만드는 컴포넌트
+UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MJ - Component")
+
+uproperty_cpp_uobject - C++ 내부 UObject 참조/캐시
+UPROPERTY(Transient)
+
+uproperty_public - 기본값과 인스턴스 양쪽에서 조정 가능
+UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "MJ - Public")
+
+uproperty_replicated - 서버 값이 클라이언트에 단순 동기화됨
+UPROPERTY(BlueprintReadOnly, Replicated, Category = "MJ - Replicate")
+
+uproperty_repnotify - 동기화 뒤 클라이언트 반응이 필요함
+UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_X, Category = "MJ - Replicate")
+
+uproperty_runtime - 실행 중 계산·갱신
+UPROPERTY(Transient, VisibleInstanceOnly, BlueprintReadOnly, Category = "MJ - Runtime")
+
+uproperty_setting - 기본값으로 조정할 게임 설정
+UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "MJ - Setting")
