@@ -1,34 +1,30 @@
 ﻿#include "TPAbilityDefinition.h"
 #include "AbilitySystemComponent.h"
 #include "ProjectTP/AbilitySystem/TPGameplayAbility.h"
-#include "ProjectTP/AbilitySystem/TPGrantedHandles.h"
+#include "ProjectTP/AbilitySystem/TPGrantedAbilityHandles.h"
 
 // ==================================================
 
-void UTPAbilityDefinition::GiveToAbilitySystem(UAbilitySystemComponent* ASC, FTPGrantedAbilityHandles& OutGrantedHandles, UObject* SourceObject) const
+void UTPAbilityDefinition::GiveToAbilitySystem(UAbilitySystemComponent* ASC, FTPGrantedAbilityHandles* OutGrantedHandles, UObject* SourceObject) const
 {
 	check(ASC);
 
-	if (!ASC->IsOwnerActorAuthoritative())
-	{
+	if (!OutGrantedHandles || !ASC->IsOwnerActorAuthoritative())
 		return;
-	}
 
 	for (const TPair<FGameplayTag, TSubclassOf<UTPGameplayAbility>>& Pair : AbilityMap)
 	{
-		const FGameplayTag& AbilityKey = Pair.Key;
+		const FGameplayTag& AbilityTag = Pair.Key;
 		const TSubclassOf<UTPGameplayAbility>& AbilityClass = Pair.Value;
 
-		if (!AbilityKey.IsValid() || !AbilityClass || OutGrantedHandles.Contains(AbilityKey))
-		{
+		if (!AbilityTag.IsValid() || !AbilityClass || OutGrantedHandles->HasSpecHandle(AbilityTag))
 			continue;
-		}
 
-		// 키 태그를 Spec의 동적 태그로 붙여 두고, ASC에서 이 태그로 Spec을 찾는다
+		// 태그를 Spec의 동적 태그로 붙여 두고, ASC에서 이 태그로 Spec을 찾는다
 		FGameplayAbilitySpec AbilitySpec(AbilityClass, 1);
 		AbilitySpec.SourceObject = SourceObject;
-		AbilitySpec.GetDynamicSpecSourceTags().AddTag(AbilityKey);
+		AbilitySpec.GetDynamicSpecSourceTags().AddTag(AbilityTag);
 
-		OutGrantedHandles.Add(AbilityKey, ASC->GiveAbility(AbilitySpec));
+		OutGrantedHandles->AddAbilitySpecHandle(AbilityTag, ASC->GiveAbility(AbilitySpec));
 	}
 }

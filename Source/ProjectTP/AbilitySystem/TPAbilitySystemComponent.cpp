@@ -20,13 +20,13 @@ void UTPAbilitySystemComponent::SetUp(const UTPAbilityDefinition* AbilityDefinit
 	// 어트리뷰트를 먼저 붙여야 OnSpawn 어빌리티가 켜질 때 값을 읽을 수 있다
 	if (AttributeDefinition)
 	{
-		AttributeDefinition->GiveToAbilitySystem(this, GrantedAttributeSets);
+		AttributeDefinition->GiveToAbilitySystem(this, &GrantedAttributeSets);
 	}
 	RestoreHP();
 
 	if (AbilityDefinition)
 	{
-		AbilityDefinition->GiveToAbilitySystem(this, GrantedAbilityHandles, GetOwner());
+		AbilityDefinition->GiveToAbilitySystem(this, &GrantedAbilityHandles, GetOwner());
 	}
 
 	TryActivateOnSpawnAbilities();
